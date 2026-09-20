@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>markkit — Agentic-First Markdown Processing Service</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:#0d1117;color:#e6edf3;line-height:1.6}
+.container{max-width:900px;margin:0 auto;padding:2rem}
+.hero{text-align:center;padding:3rem 0 2rem}
+.hero h1{font-size:2.5rem;margin-bottom:0.5rem}
+.hero .tagline{font-size:1.2rem;color:#8b949e;margin-bottom:1.5rem}
+.badges{display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+.badge{display:inline-block;padding:0.3rem 0.8rem;border:1px solid #30363d;border-radius:6px;font-size:0.85rem;color:#8b949e}
+.badge.go{border-color:#00ADD8;color:#00ADD8}
+.badge.license{border-color:#52d976;color:#52d976}
+.cta{display:flex;gap:1rem;justify-content:center;margin-bottom:2rem}
+.cta a{display:inline-block;padding:0.6rem 1.5rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.95rem}
+.cta .primary{background:#238636;color:#fff}
+.cta .secondary{border:1px solid #30363d;color:#e6edf3}
+section{margin-bottom:2.5rem}
+section h2{font-size:1.5rem;margin-bottom:1rem;border-bottom:1px solid #21262d;padding-bottom:0.5rem}
+.principles{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.principle{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:1rem}
+.principle h3{font-size:1rem;margin-bottom:0.3rem;color:#58a6ff}
+.principle p{font-size:0.85rem;color:#8b949e}
+.api-table{width:100%;border-collapse:collapse}
+.api-table th,.api-table td{padding:0.6rem 1rem;border:1px solid #30363d;text-align:left}
+.api-table th{background:#161b22;color:#58a6ff}
+.api-table td code{background:#161b22;padding:0.2rem 0.4rem;border-radius:3px;font-size:0.85rem}
+.config-table{width:100%;border-collapse:collapse}
+.config-table th,.config-table td{padding:0.6rem 1rem;border:1px solid #30363d;text-align:left}
+.config-table th{background:#161b22;color:#58a6ff}
+.config-table td code{background:#161b22;padding:0.2rem 0.4rem;border-radius:3px;font-size:0.85rem}
+pre{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:1rem;overflow-x:auto}
+code{font-family:'SF Mono',Consolas,'Liberation Mono',Menlo,monospace}
+.footer{text-align:center;padding:2rem 0;color:#8b949e;font-size:0.85rem;border-top:1px solid #21262d}
+@media(max-width:600px){.hero h1{font-size:1.8rem}.principles{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <h1>markkit</h1>
+    <p class="tagline">Agentic-First Markdown Processing Service</p>
+    <div class="badges">
+      <span class="badge go">Go</span>
+      <span class="badge">CGO_ENABLED=0</span>
+      <span class="badge">Single Binary</span>
+      <span class="badge">MCP</span>
+      <span class="badge license">MIT</span>
+    </div>
+    <div class="cta">
+      <a class="primary" href="https://github.com/relentlessworks/markkit">View on GitHub</a>
+      <a class="secondary" href="https://github.com/relentlessworks/markkit/releases">Download</a>
+    </div>
+  </div>
+
+  <section>
+    <h2>Quick Start</h2>
+    <pre><code># Build
+make build
+
+# Run
+./markkit
+
+# Convert Markdown to HTML
+curl -X POST localhost:8470/render -d '# Hello World'
+
+# Extract plain text
+curl -X POST localhost:8470/extract -d '**bold** and `code`'
+
+# Generate table of contents
+curl -X POST localhost:8470/toc -d '# Title
+## Section'
+
+# Get document statistics
+curl -X POST localhost:8470/stats -d '# Hello
+
+Some text here.'
+
+# Convert HTML to Markdown
+curl -X POST localhost:8470/html2md -d '&lt;h1&gt;Title&lt;/h1&gt;&lt;p&gt;Text&lt;/p&gt;'</code></pre>
+  </section>
+
+  <section>
+    <h2>Principles</h2>
+    <div class="principles">
+      <div class="principle"><h3>Agent IS the Interface</h3><p>No UI, no SDK. The API is the product.</p></div>
+      <div class="principle"><h3>Plain Text by Default</h3><p>Token-cheap, grepable, survives context truncation.</p></div>
+      <div class="principle"><h3>Instructive Errors</h3><p>Every 4xx includes a hint for self-correction.</p></div>
+      <div class="principle"><h3>Self-Documenting</h3><p>GET /help returns the operating manual.</p></div>
+      <div class="principle"><h3>Single Static Binary</h3><p>Go, CGO_ENABLED=0, zero external dependencies.</p></div>
+      <div class="principle"><h3>Zero Config</h3><p>Runs out of the box with sensible defaults.</p></div>
+      <div class="principle"><h3>MCP Connector</h3><p>Speaks Model Context Protocol at /mcp.</p></div>
+      <div class="principle"><h3>Stateless</h3><p>Pure computation, no database needed.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>API Reference</h2>
+    <table class="api-table">
+      <tr><th>Method</th><th>Path</th><th>Description</th></tr>
+      <tr><td><code>POST</code></td><td><code>/render</code></td><td>Convert Markdown to HTML</td></tr>
+      <tr><td><code>POST</code></td><td><code>/extract</code></td><td>Extract plain text from Markdown</td></tr>
+      <tr><td><code>POST</code></td><td><code>/toc</code></td><td>Generate table of contents</td></tr>
+      <tr><td><code>POST</code></td><td><code>/stats</code></td><td>Get document statistics</td></tr>
+      <tr><td><code>POST</code></td><td><code>/html2md</code></td><td>Convert HTML to Markdown</td></tr>
+      <tr><td><code>POST</code></td><td><code>/mcp</code></td><td>MCP endpoint</td></tr>
+      <tr><td><code>GET</code></td><td><code>/help</code></td><td>Operating manual for agents</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Configuration</h2>
+    <table class="config-table">
+      <tr><th>Env Var</th><th>Flag</th><th>Default</th><th>Description</th></tr>
+      <tr><td><code>MARKKIT_ADDR</code></td><td><code>-addr</code></td><td><code>:8470</code></td><td>Listen address</td></tr>
+      <tr><td><code>MARKKIT_SECRET</code></td><td><code>-secret</code></td><td>auto</td><td>Token signing secret</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Build</h2>
+    <pre><code>make build    # CGO_ENABLED=0 go build -trimpath
+make test     # go test -race ./...
+make vet      # go vet ./...
+make run      # go run ./cmd/markkit</code></pre>
+  </section>
+
+  <div class="footer">
+    <p>markkit v0.1.0 — Built by <a href="https://github.com/relentlessworks" style="color:#58a6ff;text-decoration:none">relentlessworks</a></p>
+  </div>
+</div>
+</body>
+</html>
